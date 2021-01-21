@@ -1,16 +1,13 @@
+import $ from 'jquery';
 
-import $ from 'jquery'
+const waitForElement = (selector, callback) => {
+  if ($(selector).length) {
+    callback();
+  } else {
+    setTimeout(() => {
+      waitForElement(selector, callback);
+    }, 100);
+  }
+};
 
-function waitForElement(selector, callback) {
-    if ($(selector).length) {
-        callback();
-    } else {
-        setTimeout(function() {
-            waitForElement(selector, callback);
-        }, 100);
-    }
-}
-
-export {
-    waitForElement
-}
+export default waitForElement;

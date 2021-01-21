@@ -1,22 +1,20 @@
-import $ from 'jquery'
-import OrderForm from './OrderForm'
-import { waitForElement } from '../../common/util'
+import $ from 'jquery';
+import OrderForm from './OrderForm';
+import waitForElement from '../../common/util';
 
-class PreOrderButton {
-    
-    constructor({root}) {
-        this.root = $(root)
+const createForm = () => {
+  console.log('wait done, create form');
+  OrderForm({ selector: '.sqs-async-form form' });
+};
 
-        this.root.on('click', this.handleOnClick)
-    }
+const handleOnClick = () => {
+  waitForElement('.sqs-async-form form', createForm);
+};
 
-    handleOnClick = () => {
-        waitForElement('.sqs-async-form form', this.createForm)
-    }
+function PreOrderButton({ selector }) {
+  const root = $(selector);
 
-    createForm = () => {
-        const orderForm = new OrderForm('.sqs-async-form form');
-    }    
+  root.on('click', handleOnClick);
 }
 
-export default PreOrderButton
+export default PreOrderButton;

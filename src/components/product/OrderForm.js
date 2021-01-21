@@ -1,12 +1,16 @@
-//hijack the Add to Cart button in order form
-import $ from 'jquery'
+// hijack the Add to Cart button in order form
+import $ from 'jquery';
 
-class OrderForm {
-    constructor({root}) {
-        this.root = $(root)
+const handleFormSubmit = (e) => {
+  e.preventDefault();
 
-        alert('form created')
-    }
+  alert('submit');
+};
+
+function OrderForm({ selector }) {
+  const root = $(selector);
+
+  root.find('input[type=submit').on('click', handleFormSubmit);
 }
 
-export default OrderForm
+export default OrderForm;
