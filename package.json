@@ -1,0 +1,26 @@
+{
+  "name": "squarespace-plugins",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "prebuild": "rm -rf dist/*",
+    "deploy": "bin/deploy.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Caketionary/squarespace-plugins.git"
+  },
+  "author": "Stanley Fok",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Caketionary/squarespace-plugins/issues"
+  },
+  "homepage": "https://github.com/Caketionary/squarespace-plugins#readme",
+  "devDependencies": {
+    "jquery": "^3.5.1",
+    "webpack": "^5.16.0",
+    "webpack-cli": "^4.4.0"
+  }
+}
