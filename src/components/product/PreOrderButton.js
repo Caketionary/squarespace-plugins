@@ -6,17 +6,16 @@ class PreOrderButton {
     
     constructor({root}) {
         this.root = $(root)
-        this._OrderForm = OrderForm
 
-        this.root.on('click', this.handleOnClick.bind(this))
+        this.root.on('click', this.handleOnClick)
     }
 
-    handleOnClick() {
-        waitForElement('.sqs-async-form form', this.createForm.bind(this))
+    handleOnClick = () => {
+        waitForElement('.sqs-async-form form', this.createForm)
     }
 
-    createForm() {
-        const OrderForm = new this._OrderForm('.sqs-async-form form');
+    createForm = () => {
+        const orderForm = new OrderForm('.sqs-async-form form');
     }    
 }
 
