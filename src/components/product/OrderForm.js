@@ -1,16 +1,15 @@
 // hijack the Add to Cart button in order form
 import $ from 'jquery';
 import validator from '../../common/validator';
-import OrderPreviewForm from './OrderPreviewForm';
+import BaseComponent from '../BaseComponent';
 
-class OrderForm {
-  constructor({ selector, productVariants }) {
-    this.root = $(selector);
+class OrderForm extends BaseComponent {
+  constructor(props) {
+    super(props);
 
-    this.form = this.root.find('form');
-    this.formItems = this.form.find('.form-item');
-
-    this.productVariants = productVariants;
+    this.root = $(props.selector);
+    this.form = this.root.find('.form-wrapper');
+    this.formItems = this.form.find('form .form-item');
 
     // add handlers
     this.form.find('input[type=submit]').on('click', this.handleFormSubmit);
@@ -100,12 +99,34 @@ class OrderForm {
     return formValid;
   }
 
+  /*
   showOrderPreview = () => {
     this.form.hide();
 
-    const orderPreviewForm = new OrderPreviewForm({ productVariants: this.productVariants });
-    this.root.find('.form-inner-wrapper').append(orderPreviewForm.render());
+    if (!this.orderPreviewForm) {
+      this.orderPreviewForm = new OrderPreviewForm({
+        onGoBack: this.hideOrderPreview,
+      });
+
+      this.root.find('.sqs-async-form-content').append(this.orderPreviewForm.getNode());
+    } else {
+      this.orderPreviewForm.update({
+      });
+
+      this.orderPreviewForm.getNode().show();
+    }
   }
+  */
+
+  /*
+  hideOrderPreview = () => {
+    this.form.show();
+
+    if (this.orderPreviewForm) {
+      this.orderPreviewForm.getNode().hide();
+    }
+  }
+  */
 
   renderErrorField = (errorMessage) => $(`<div class="field-error">${errorMessage}</div>`)
 
@@ -116,10 +137,8 @@ class OrderForm {
     //   return;
     // }
 
-    this.showOrderPreview();
-
-    console.log('form valid');
+    this.props.showOrderPreviewForm();
   };
 }
 
-export default (options) => new OrderForm(options);
+export default (props) => new OrderForm(props);
