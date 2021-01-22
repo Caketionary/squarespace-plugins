@@ -1,5 +1,5 @@
 import './common/util';
-import PreOrderButton from './components/product/PreOrderButton';
+import ProductItem from './components/product/ProductItem';
 
 // TODO: check if this is product page
-PreOrderButton({ selector: '.sqs-add-to-cart-button' });
+ProductItem({ selector: '.ProductItem' });

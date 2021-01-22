@@ -1,13 +1,17 @@
 // hijack the Add to Cart button in order form
 import $ from 'jquery';
 import validator from '../../common/validator';
+import OrderPreviewForm from './OrderPreviewForm';
 
 class OrderForm {
   constructor({ selector }) {
     this.root = $(selector);
 
-    this.root.find('input[type=submit').on('click', this.handleFormSubmit);
-    this.formItems = this.root.find('.form-item');
+    this.form = this.root.find('form');
+    this.formItems = this.form.find('.form-item');
+
+    // add handlers
+    this.form.find('input[type=submit]').on('click', this.handleFormSubmit);
   }
 
   getFieldValue = (formItem) => {
@@ -41,7 +45,7 @@ class OrderForm {
     return value;
   }
 
-  verifyFields = () => {
+  isFormValid = () => {
     let formValid = true;
 
     for (let i = 0; i < this.formItems.length; i += 1) {
@@ -82,7 +86,7 @@ class OrderForm {
       let fieldError = formItem.find('.field-error');
       if (errorMessage) {
         if (fieldError.length === 0) {
-          fieldError = formItem.append(`<div class="field-error">${errorMessage}</div>`);
+          fieldError = formItem.append(this.renderErrorField(errorMessage));
         } else {
           fieldError.text(errorMessage);
         }
@@ -94,12 +98,25 @@ class OrderForm {
     return formValid;
   }
 
+  showOrderPreview = () => {
+    this.form.hide();
+
+    const orderPreviewForm = new OrderPreviewForm();
+    this.root.find('.form-inner-wrapper').append(orderPreviewForm.render());
+  }
+
+  renderErrorField = (errorMessage) => $(`<div class="field-error">${errorMessage}</div>`)
+
   handleFormSubmit = (e) => {
     e.preventDefault();
 
-    if (this.verifyFields()) {
-      // post data to api
-    }
+    // if (!this.isFormValid()) {
+    //   return;
+    // }
+
+    this.showOrderPreview();
+
+    console.log('form valid');
   };
 }
 
