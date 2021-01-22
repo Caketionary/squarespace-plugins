@@ -4,11 +4,13 @@ import validator from '../../common/validator';
 import OrderPreviewForm from './OrderPreviewForm';
 
 class OrderForm {
-  constructor({ selector }) {
+  constructor({ selector, productVariants }) {
     this.root = $(selector);
 
     this.form = this.root.find('form');
     this.formItems = this.form.find('.form-item');
+
+    this.productVariants = productVariants;
 
     // add handlers
     this.form.find('input[type=submit]').on('click', this.handleFormSubmit);
@@ -101,7 +103,7 @@ class OrderForm {
   showOrderPreview = () => {
     this.form.hide();
 
-    const orderPreviewForm = new OrderPreviewForm();
+    const orderPreviewForm = new OrderPreviewForm({ productVariants: this.productVariants });
     this.root.find('.form-inner-wrapper').append(orderPreviewForm.render());
   }
 
