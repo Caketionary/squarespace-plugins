@@ -1,8 +1,10 @@
 import $ from 'jquery';
+import BaseComponent from '../BaseComponent';
 
-class ProductVariantsForm {
-  constructor({ selector }) {
-    this.root = $(selector);
+class ProductVariantsForm extends BaseComponent {
+  constructor(props) {
+    super(props, $(props.selector));
+
     this.variantOptions = this.root.find('.variant-option');
   }
 

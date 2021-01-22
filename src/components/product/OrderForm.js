@@ -5,9 +5,8 @@ import BaseComponent from '../BaseComponent';
 
 class OrderForm extends BaseComponent {
   constructor(props) {
-    super(props);
+    super(props, $(props.selector));
 
-    this.root = $(props.selector);
     this.form = this.root.find('.form-wrapper');
     this.formItems = this.form.find('form .form-item');
 
@@ -98,35 +97,6 @@ class OrderForm extends BaseComponent {
 
     return formValid;
   }
-
-  /*
-  showOrderPreview = () => {
-    this.form.hide();
-
-    if (!this.orderPreviewForm) {
-      this.orderPreviewForm = new OrderPreviewForm({
-        onGoBack: this.hideOrderPreview,
-      });
-
-      this.root.find('.sqs-async-form-content').append(this.orderPreviewForm.getNode());
-    } else {
-      this.orderPreviewForm.update({
-      });
-
-      this.orderPreviewForm.getNode().show();
-    }
-  }
-  */
-
-  /*
-  hideOrderPreview = () => {
-    this.form.show();
-
-    if (this.orderPreviewForm) {
-      this.orderPreviewForm.getNode().hide();
-    }
-  }
-  */
 
   renderErrorField = (errorMessage) => $(`<div class="field-error">${errorMessage}</div>`)
 

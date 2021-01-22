@@ -3,12 +3,13 @@ import OrderForm from './OrderForm';
 import waitForElement from '../../common/util';
 import ProductVariantsForm from './ProductVariantsForm';
 import OrderPreviewForm from './OrderPreviewForm';
+import BaseComponent from '../BaseComponent';
 
-class ProductItem {
-  constructor({ selector }) {
-    this.root = $(selector);
+class ProductItem extends BaseComponent {
+  constructor(props) {
+    super(props, $(props.selector));
 
-    this.productVariantsForm = new ProductVariantsForm({ selector: `${selector} .product-variants` });
+    this.productVariantsForm = new ProductVariantsForm({ selector: `${props.selector} .product-variants` });
 
     // handlers
     this.root.find('.sqs-add-to-cart-button').on('click', this.handleStartOrder);
