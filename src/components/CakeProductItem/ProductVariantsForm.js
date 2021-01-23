@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import BaseComponent from '../BaseComponent';
+import BaseComponent from '../../common/BaseComponent';
 
 class ProductVariantsForm extends BaseComponent {
   constructor(props) {

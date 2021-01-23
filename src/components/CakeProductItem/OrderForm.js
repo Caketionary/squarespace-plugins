@@ -1,7 +1,7 @@
 // hijack the Add to Cart button in order form
 import $ from 'jquery';
 import validator from '../../common/validator';
-import BaseComponent from '../BaseComponent';
+import BaseComponent from '../../common/BaseComponent';
 
 class OrderForm extends BaseComponent {
   constructor(props) {

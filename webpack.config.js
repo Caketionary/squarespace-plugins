@@ -15,13 +15,21 @@ module.exports = {
     extensions: ['*', '.js'],
   },
   entry: {
-    app: [
+    vendor: [
       'jquery',
-      path.resolve(__dirname, 'src/index.js'),
     ],
+    'cake-product-item': {
+      import: path.resolve(__dirname, 'src/page/CakeProductItem/index.js'),
+      dependOn: 'vendor',
+    },
   },
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
   },
 };

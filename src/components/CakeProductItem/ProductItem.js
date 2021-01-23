@@ -1,9 +1,9 @@
 import $ from 'jquery';
 import OrderForm from './OrderForm';
 import waitForElement from '../../common/util';
+import BaseComponent from '../../common/BaseComponent';
 import ProductVariantsForm from './ProductVariantsForm';
 import OrderPreviewForm from './OrderPreviewForm';
-import BaseComponent from '../BaseComponent';
 
 class ProductItem extends BaseComponent {
   constructor(props) {
