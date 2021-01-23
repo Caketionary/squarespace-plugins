@@ -1,9 +1,9 @@
 import $ from 'jquery';
+import BaseComponent from '../common/BaseComponent';
 import OrderForm from './OrderForm';
-import waitForElement from '../../common/util';
-import BaseComponent from '../../common/BaseComponent';
 import ProductVariantsForm from './ProductVariantsForm';
 import OrderPreviewForm from './OrderPreviewForm';
+import waitForElement from '../../lib/util';
 
 class ProductItem extends BaseComponent {
   constructor(props) {
@@ -60,4 +60,4 @@ class ProductItem extends BaseComponent {
   }
 }
 
-export default (options) => new ProductItem(options);
+export default (props) => new ProductItem(props);

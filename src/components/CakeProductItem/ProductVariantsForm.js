@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import BaseComponent from '../../common/BaseComponent';
+import BaseComponent from '../common/BaseComponent';
 
 class ProductVariantsForm extends BaseComponent {
   constructor(props) {
@@ -19,4 +19,4 @@ class ProductVariantsForm extends BaseComponent {
   }).reduce((acc, { label, value }) => ({ ...acc, [label]: value }), {})
 }
 
-export default (options) => new ProductVariantsForm(options);
+export default ProductVariantsForm;

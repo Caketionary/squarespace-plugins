@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import BaseComponent from '../../common/BaseComponent';
+import BaseComponent from '../common/BaseComponent';
 
 class OrderPreviewForm extends BaseComponent {
   constructor(props) {
@@ -55,4 +55,4 @@ class OrderPreviewForm extends BaseComponent {
   }
 }
 
-export default (props) => new OrderPreviewForm(props);
+export default OrderPreviewForm;
