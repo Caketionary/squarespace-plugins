@@ -2,6 +2,7 @@
 import $ from 'jquery';
 import validator from '../../lib/validator';
 import BaseComponent from '../common/BaseComponent';
+import i18n from '../../i18n/i18n';
 
 class OrderForm extends BaseComponent {
   constructor(props) {
@@ -98,22 +99,34 @@ class OrderForm extends BaseComponent {
     return formValid;
   }
 
-  getOrderDetails = () => $.map(this.formItems, (formItem) => {
+  getAllFields = () => $.map(this.formItems, (formItem) => {
     const label = $($(formItem).find('.title').contents().get(0)).text().trim();
     const value = this.getFieldValue($(formItem));
 
     return { label, value };
   })// .reduce((acc, { label, value }) => ({ ...acc, [label]: value }), {})
 
-  getAdditionalItems = () => this.getOrderDetails().filter(({ label }) => label === '附加項目')[0].value;
+  getName = () => this.getAllFields().filter(({ label }) => label === i18n('CAKE_ORDER_FORM.NAME.LABEL'))[0].value;
 
-  getName = () => this.getOrderDetails().filter(({ label }) => label === '名字')[0].value;
+  getPhone = () => this.getAllFields().filter(({ label }) => label === i18n('CAKE_ORDER_FORM.PHONE.LABEL'))[0].value;
 
-  getPhone = () => this.getOrderDetails().filter(({ label }) => label === '電話號碼')[0].value;
+  getPreferredIM = () => this.getAllFields().filter(({ label }) => label === i18n('CAKE_ORDER_FORM.PREFERRED_IM.LABEL'))[0].value;
 
-  getPreferredIM = () => this.getOrderDetails().filter(({ label }) => label === '首選聯繫方式')[0].value;
+  getIGAccount = () => this.getAllFields().filter(({ label }) => label === i18n('CAKE_ORDER_FORM.IG_ACCOUNT.LABEL'))[0].value;
 
-  getIGAccount = () => this.getOrderDetails().filter(({ label }) => label === 'IG 帳戶')[0].value;
+  getAdditionalItems = () => this.getAllFields().filter(({ label }) => label === i18n('CAKE_ORDER_FORM.ADDITIONAL_ITEMS.LABEL'))[0].value;
+
+  getOrderDetails = () => this.getAllFields().filter(({ label }) => {
+    const excludedLabels = [
+      i18n('CAKE_ORDER_FORM.NAME.LABEL'),
+      i18n('CAKE_ORDER_FORM.PHONE.LABEL'),
+      i18n('CAKE_ORDER_FORM.PREFERRED_IM.LABEL'),
+      i18n('CAKE_ORDER_FORM.IG_ACCOUNT.LABEL'),
+      i18n('CAKE_ORDER_FORM.ADDITIONAL_ITEMS.LABEL'),
+    ];
+
+    return !excludedLabels.includes(label);
+  })
 
   renderErrorField = (errorMessage) => $(`<div class="field-error">${errorMessage}</div>`)
 

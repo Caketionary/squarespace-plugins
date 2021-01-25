@@ -46,7 +46,7 @@ class OrderPreviewForm extends BaseComponent {
                   <label class="title">總數</label>
                   <div>${getPriceLabel(unitPrice)} x ${quantity} = ${getPriceLabel(order.getTotalAmount())}</div>
                 </div>
-                <h4>聯絡方法/h4>
+                <h4>聯絡方法</h4>
                 <div class="form-item field">
                   <label class="title">名字</label>
                   <div>${contactDetails.name}</div>
