@@ -1,3 +1,7 @@
-import ProductItem from '../../components/CakeProductItem/ProductItem';
+import $ from 'jquery';
 
-ProductItem({ selector: '.ProductItem' });
+import getCakeProductItem from './CakeProductItemFactory';
+
+if ($('article.ProductItem')) {
+  getCakeProductItem();
+}
