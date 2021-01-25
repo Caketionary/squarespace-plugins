@@ -3,10 +3,10 @@ import BaseComponent from '../../components/common/BaseComponent';
 import OrderForm from '../../components/CakeProductItem/OrderForm';
 import ProductVariantsForm from '../../components/CakeProductItem/ProductVariantsForm';
 import OrderPreviewForm from '../../components/CakeProductItem/OrderPreviewForm';
-import waitForElement from '../../lib/util';
-import { parsePriceLabel } from '../../lib/currency';
 import Order from '../../models/Order';
 import ContactDetails from '../../models/ContactDetails';
+import waitForElement from '../../lib/util';
+import { parsePriceLabel } from '../../lib/currency';
 
 class CakeProductItem extends BaseComponent {
   constructor(props) {

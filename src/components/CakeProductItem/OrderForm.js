@@ -31,6 +31,18 @@ class OrderForm extends BaseComponent {
       }
 
       value = values.join(',');
+    } else if (formItem.hasClass('radio')) {
+      const options = formItem.find('input');
+
+      for (let j = 0; j < options.length; j += 1) {
+        const option = $(options[j]);
+
+        if (option.is(':checked')) {
+          value = option.val();
+
+          break;
+        }
+      }
     } else if (formItem.hasClass('date')) {
       const year = formItem.find('.year input').val();
       const month = formItem.find('.month input').val().padStart(2, '0');
@@ -59,29 +71,27 @@ class OrderForm extends BaseComponent {
       let isValid = true;
       let errorMessage = '';
 
-      // 2 check if valid
-      switch (label) {
-        case '電話號碼':
-          isValid = validator.validatePhone(value);
-          break;
-        case '取餅日子':
-          isValid = validator.validateDate(value);
-          break;
-        default:
-          break;
+      if (isRequired && isEmpty) {
+        errorMessage = i18n('CAKE_ORDER_FORM.ERROR.FIELDREQUIRED', { label });
+        isValid = false;
+      } else {
+        switch (label) {
+          case i18n('CAKE_ORDER_FORM.PHONE.LABEL'):
+            isValid = validator.validatePhone(value);
+            break;
+          case i18n('CAKE_ORDER_FORM.SHIPPING_DATE.LABEL'):
+            isValid = validator.validateDate(value);
+            break;
+          default:
+            break;
+        }
+
+        if (!isValid) {
+          errorMessage = i18n('CAKE_ORDER_FORM.ERROR.INVALID_FORMAT');
+        }
       }
 
       formValid &&= isValid;
-
-      console.log(`${label}, ${value}`);
-
-      // checking
-      // 1 check required
-      if (isRequired && isEmpty) {
-        errorMessage = `請填寫${label}`;
-      } else if (!isValid) {
-        errorMessage = '格式不正確';
-      }
 
       // handle error tips
       let fieldError = formItem.find('.field-error');
@@ -133,9 +143,9 @@ class OrderForm extends BaseComponent {
   handleFormSubmit = (e) => {
     e.preventDefault();
 
-    // if (!this.isFormValid()) {
-    //   return;
-    // }
+    if (!this.isFormValid()) {
+      return;
+    }
 
     this.props.showOrderPreviewForm();
   };
