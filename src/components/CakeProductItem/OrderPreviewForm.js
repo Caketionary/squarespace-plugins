@@ -6,25 +6,29 @@ class OrderPreviewForm extends BaseComponent {
   constructor(props) {
     super(props, $('<div class="sqs-widget sqs-async-form"/>'));
 
-    this.state = { isTncAccepted: false };
+    this.state = { isTncAccepted: false, isMarketingAccepted: false };
   }
 
-  handleGoBack = (e) => {
+  handleOrderSubmit = (e) => {
     e.preventDefault();
 
-    this.props.showOrderForm();
+    const { isMarketingAccepted } = this.state;
+
+    this.props.onOrderButtonClick({ isMarketingAccepted });
   }
 
-  handleSubmit = (e) => {
+  handleBackButtonClick = (e) => {
     e.preventDefault();
 
-    console.log(this.state.isTncAccepted);
-
-    console.log('submit');
+    this.props.onBackButtonClick();
   }
 
   handleToggleTNC = (e) => {
     this.setState({ isTncAccepted: $(e.target).is(':checked') });
+  }
+
+  handleToggleMarketing = (e) => {
+    this.setState({ isMarketingAccepted: $(e.target).is(':checked') });
   }
 
   render() {
@@ -36,7 +40,7 @@ class OrderPreviewForm extends BaseComponent {
       productName, quantity, unitPrice, additionalItems, contactDetails, orderDetails,
     } = order;
 
-    const { isTncAccepted } = this.state;
+    const { isTncAccepted, isMarketingAccepted } = this.state;
 
     this.root.empty();
 
@@ -96,7 +100,7 @@ class OrderPreviewForm extends BaseComponent {
                   <legend class="title">個人資料用於推廣</legend>
                   <div class="option">
                     <label>
-                      <input name="marketing" type="checkbox"/>
+                      <input name="accept-marketing" type="checkbox" ${isMarketingAccepted ? 'checked' : ''}/>
                       閣下不想資料被用作直接推廣的用途
                     </label>
                   </div>
@@ -111,9 +115,10 @@ class OrderPreviewForm extends BaseComponent {
         </div>
       </div>`);
 
-    this.root.find('.back-button').on('click', this.handleGoBack);
-    this.root.find('input[type=submit]').on('click', this.handleSubmit);
+    this.root.find('input[type=submit]').on('click', this.handleOrderSubmit);
+    this.root.find('.back-button').on('click', this.handleBackButtonClick);
     this.root.find('input[name=accept-terms]').on('click', this.handleToggleTNC);
+    this.root.find('input[name=accept-marketing]').on('click', this.handleToggleMarketing);
   }
 }
 

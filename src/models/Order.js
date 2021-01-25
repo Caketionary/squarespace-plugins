@@ -7,6 +7,7 @@ class Order {
     additionalItems,
     contactDetails,
     orderDetails,
+    isMarketingAccepted = false,
   ) {
     this.productName = productName;
     this.quantity = quantity;
@@ -15,6 +16,7 @@ class Order {
     this.additionalItems = additionalItems;
     this.contactDetails = contactDetails;
     this.orderDetails = orderDetails;
+    this.isMarketingAccepted = isMarketingAccepted;
   }
 
   getTotalAmount = () => this.quantity * this.unitPrice

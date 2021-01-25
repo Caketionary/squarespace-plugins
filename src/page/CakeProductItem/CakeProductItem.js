@@ -56,33 +56,50 @@ class CakeProductItem extends BaseComponent {
 
   handleShowOrderForm = () => {
     this.orderForm.show();
-    this.orderPreviewForm.hide();
+    setTimeout(() => {
+      this.orderPreviewForm.remove();
+      delete this.orderPreviewForm;
+    }, 0);
 
     this.root.find('.lightbox-inner').scrollTop(0);
   }
 
   handleShowOrderPreviewForm = () => {
-    const order = this.getOrder();
+    this.setState({ order: this.getOrder() });
 
-    console.log(order);
-
-    if (!this.orderPreviewForm) {
-      this.orderPreviewForm = new OrderPreviewForm({
-        showOrderForm: this.handleShowOrderForm,
-        order,
-      });
-
-      this.root.find('.lightbox-content').append(this.orderPreviewForm.getNode());
-    } else {
-      this.orderPreviewForm.setProps({
-        order,
-      });
-    }
+    this.orderPreviewForm = new OrderPreviewForm({
+      onBackButtonClick: this.handleShowOrderForm,
+      onOrderButtonClick: this.handleOrderSubmit,
+      order: this.state.order,
+    });
+    this.root.find('.lightbox-content').append(this.orderPreviewForm.getNode());
 
     this.orderForm.hide();
-    this.orderPreviewForm.show();
 
     this.root.find('.lightbox-inner').scrollTop(0);
+  }
+
+  handleOrderSubmit = ({ isMarketingAccepted }) => {
+    const { order } = this.state;
+    order.isMarketingAccepted = isMarketingAccepted;
+
+    this.setState({ order });
+
+    // do api call here
+
+    // if success
+    this.handleOrderSuccess();
+
+    // if failure
+  }
+
+  handleOrderSuccess = () => {
+    console.log('Success!');
+
+    console.log(this.state.order);
+  }
+
+  handleOrderFailure = () => {
   }
 }
 
