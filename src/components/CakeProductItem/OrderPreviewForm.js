@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import BaseComponent from '../common/BaseComponent';
+import { getPriceLabel } from '../../lib/currency';
 
 class OrderPreviewForm extends BaseComponent {
   constructor(props) {
@@ -15,6 +16,14 @@ class OrderPreviewForm extends BaseComponent {
   }
 
   render() {
+    const {
+      order,
+    } = this.props;
+
+    const {
+      productName, quantity, unitPrice, additionalItems, contactDetails, orderDetails,
+    } = order;
+
     this.root.empty();
 
     this.root.append(`
@@ -24,14 +33,43 @@ class OrderPreviewForm extends BaseComponent {
           <div class="form-inner-wrapper">
             <form>
               <div class="field-list clear">
+                <h4>產品資料</h4>
+                <div class="form-item field">
+                  <label class="title">產品詳情</label>
+                  <div>${productName} (${order.getProductVariantsDesc()}) x ${quantity}</div>
+                </div>
+                <div class="form-item field">
+                  <label class="title">附加項目</label>
+                  <div>${additionalItems}</div>
+                </div>
+                <div class="form-item field">
+                  <label class="title">總數</label>
+                  <div>${getPriceLabel(unitPrice)} x ${quantity} = ${getPriceLabel(order.getTotalAmount())}</div>
+                </div>
+                <h4>聯絡方法/h4>
                 <div class="form-item field">
                   <label class="title">名字</label>
-                  <div>Stanley Fok</div>
+                  <div>${contactDetails.name}</div>
                 </div>
                 <div class="form-item field">
-                  <label class="title">電話</label>
-                  <div>+852-9345532</div>
+                  <label class="title">電話號碼</label>
+                  <div>${contactDetails.phone}</div>
                 </div>
+                <div class="form-item field">
+                  <label class="title">首選聯繫方式</label>
+                  <div>${contactDetails.preferredIM}</div>
+                </div>
+                <div class="form-item field">
+                  <label class="title">IG帳戶</label>
+                  <div>${contactDetails.igAccount}</div>
+                </div>
+                <h4>訂購詳情</h4>
+                ${orderDetails.map(({ label, value }) => `
+                <div class="form-item field">
+                <label class="title">${label}</label>
+                <div>${value}</div>
+              </div>
+                `).join('')}
                 <div class="form-item field">
                   <legend class="title">條款及細則，以及私隱政策聲明 *</legend>
                   <div class="option">

@@ -16,7 +16,7 @@ class ProductVariantsForm extends BaseComponent {
     const value = $(variantOption).find('.variant-select-wrapper select').val();
 
     return { label, value };
-  }).reduce((acc, { label, value }) => ({ ...acc, [label]: value }), {})
+  })// .reduce((acc, { label, value }) => ({ ...acc, [label]: value }), {})
 }
 
 export default ProductVariantsForm;

@@ -98,6 +98,23 @@ class OrderForm extends BaseComponent {
     return formValid;
   }
 
+  getOrderDetails = () => $.map(this.formItems, (formItem) => {
+    const label = $($(formItem).find('.title').contents().get(0)).text().trim();
+    const value = this.getFieldValue($(formItem));
+
+    return { label, value };
+  })// .reduce((acc, { label, value }) => ({ ...acc, [label]: value }), {})
+
+  getAdditionalItems = () => this.getOrderDetails().filter(({ label }) => label === '附加項目')[0].value;
+
+  getName = () => this.getOrderDetails().filter(({ label }) => label === '名字')[0].value;
+
+  getPhone = () => this.getOrderDetails().filter(({ label }) => label === '電話號碼')[0].value;
+
+  getPreferredIM = () => this.getOrderDetails().filter(({ label }) => label === '首選聯繫方式')[0].value;
+
+  getIGAccount = () => this.getOrderDetails().filter(({ label }) => label === 'IG 帳戶')[0].value;
+
   renderErrorField = (errorMessage) => $(`<div class="field-error">${errorMessage}</div>`)
 
   handleFormSubmit = (e) => {
