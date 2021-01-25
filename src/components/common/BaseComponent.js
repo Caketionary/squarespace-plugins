@@ -1,11 +1,14 @@
 class BaseComponent {
   constructor(props, root) {
     this.props = props;
+    this.state = {};
     this.root = root;
 
-    if (this.render) {
-      this.render();
-    }
+    setTimeout(() => {
+      if (this.render) {
+        this.render();
+      }
+    }, 0);
   }
 
   getNode = () => this.root
@@ -13,9 +16,21 @@ class BaseComponent {
   setProps = (props) => {
     this.props = { ...this.props, ...props };
 
-    if (this.render) {
-      this.render();
-    }
+    setTimeout(() => {
+      if (this.render) {
+        this.render();
+      }
+    }, 0);
+  }
+
+  setState = (state) => {
+    this.state = { ...this.state, ...state };
+
+    setTimeout(() => {
+      if (this.render) {
+        this.render();
+      }
+    }, 0);
   }
 
   show = () => {

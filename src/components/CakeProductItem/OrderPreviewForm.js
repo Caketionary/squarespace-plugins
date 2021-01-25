@@ -6,13 +6,25 @@ class OrderPreviewForm extends BaseComponent {
   constructor(props) {
     super(props, $('<div class="sqs-widget sqs-async-form"/>'));
 
-    this.root.find('.back-button').on('click', this.handleGoBack);
+    this.state = { isTncAccepted: false };
   }
 
   handleGoBack = (e) => {
     e.preventDefault();
 
     this.props.showOrderForm();
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    console.log(this.state.isTncAccepted);
+
+    console.log('submit');
+  }
+
+  handleToggleTNC = (e) => {
+    this.setState({ isTncAccepted: $(e.target).is(':checked') });
   }
 
   render() {
@@ -23,6 +35,8 @@ class OrderPreviewForm extends BaseComponent {
     const {
       productName, quantity, unitPrice, additionalItems, contactDetails, orderDetails,
     } = order;
+
+    const { isTncAccepted } = this.state;
 
     this.root.empty();
 
@@ -73,7 +87,7 @@ class OrderPreviewForm extends BaseComponent {
                   <legend class="title">條款及細則，以及私隱政策聲明 *</legend>
                   <div class="option">
                     <label>
-                      <input name="accept-terms" type="checkbox"/>
+                      <input name="accept-terms" type="checkbox" ${isTncAccepted ? 'checked' : ''}/>
                       我已閱讀，理解及同意有關<a href='/terms-of-service' target='_blank'>條款及細則</a>，以及<a href='/privacy-policy' target='_blank'>私隱政策聲明</a>。
                     </label>
                   </div>
@@ -82,14 +96,14 @@ class OrderPreviewForm extends BaseComponent {
                   <legend class="title">個人資料用於推廣</legend>
                   <div class="option">
                     <label>
-                      <input name="accept-terms" type="checkbox"/>
+                      <input name="marketing" type="checkbox"/>
                       閣下不想資料被用作直接推廣的用途
                     </label>
                   </div>
                 </div>
               </div>
               <div class="form-button-wrapper">
-                <input class="button sqs-system-button sqs-editable-button" type="submit" value="提交訂單">
+                <input class="button sqs-system-button sqs-editable-button" type="submit" value="提交訂單"/>
                 <a class="back-button" href="#">更改訂單</a>
               </div>
             </form>
@@ -98,6 +112,8 @@ class OrderPreviewForm extends BaseComponent {
       </div>`);
 
     this.root.find('.back-button').on('click', this.handleGoBack);
+    this.root.find('input[type=submit]').on('click', this.handleSubmit);
+    this.root.find('input[name=accept-terms]').on('click', this.handleToggleTNC);
   }
 }
 
