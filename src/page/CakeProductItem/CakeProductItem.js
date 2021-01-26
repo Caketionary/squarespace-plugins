@@ -67,8 +67,8 @@ class CakeProductItem extends BaseComponent {
     this.setState({ order: this.getOrder() });
 
     this.orderPreviewForm = new OrderPreviewForm({
-      onBackButtonClick: this.handleShowOrderForm,
-      onOrderButtonClick: this.handleOrderSubmit,
+      onCancelPreview: this.handleShowOrderForm,
+      onOrderSubmit: this.handleOrderSubmit,
       order: this.state.order,
     });
     this.root.find('.lightbox-content').append(this.orderPreviewForm.getNode());

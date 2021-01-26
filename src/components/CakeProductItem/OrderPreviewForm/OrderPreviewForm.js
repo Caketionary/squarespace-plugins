@@ -15,7 +15,7 @@ class OrderPreviewForm extends BaseComponent {
     };
   }
 
-  handleOrderSubmit = (e) => {
+  handleOrderButtonClick = (e) => {
     e.preventDefault();
 
     const { isTncAccepted, isMarketingAccepted } = this.state;
@@ -25,14 +25,18 @@ class OrderPreviewForm extends BaseComponent {
     } else {
       this.setState({ showTncError: false });
 
-      this.props.onOrderButtonClick({ isMarketingAccepted });
+      if (this.props.onOrderSubmit) {
+        this.props.onOrderSubmit({ isMarketingAccepted });
+      }
     }
   }
 
   handleBackButtonClick = (e) => {
     e.preventDefault();
 
-    this.props.onBackButtonClick();
+    if (this.props.onCancelPreview) {
+      this.props.onCancelPreview();
+    }
   }
 
   handleToggleTNC = (e) => {
@@ -128,7 +132,7 @@ class OrderPreviewForm extends BaseComponent {
   }
 
   postRender = () => {
-    this.root.find('input[type=submit]').on('click', this.handleOrderSubmit);
+    this.root.find('input[type=submit]').on('click', this.handleOrderButtonClick);
     this.root.find('.back-button').on('click', this.handleBackButtonClick);
     this.root.find('input[name=accept-terms]').on('click', this.handleToggleTNC);
     this.root.find('input[name=accept-marketing]').on('click', this.handleToggleMarketing);
