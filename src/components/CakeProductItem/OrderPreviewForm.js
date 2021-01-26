@@ -42,8 +42,6 @@ class OrderPreviewForm extends BaseComponent {
 
     const { isTncAccepted, isMarketingAccepted } = this.state;
 
-    this.root.empty();
-
     this.root.append(`
       <div class="sqs-async-form-content">
         <div class="form-wrapper">
@@ -107,7 +105,7 @@ class OrderPreviewForm extends BaseComponent {
                 </div>
               </div>
               <div class="form-button-wrapper">
-                <input class="button sqs-system-button sqs-editable-button" type="submit" value="提交訂單"/>
+                <input class="button sqs-system-button sqs-editable-button" type="submit" value="確認訂單"/>
                 <a class="back-button" href="#">更改訂單</a>
               </div>
             </form>

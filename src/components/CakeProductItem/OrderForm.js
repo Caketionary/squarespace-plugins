@@ -71,10 +71,14 @@ class OrderForm extends BaseComponent {
       let isValid = true;
       let errorMessage = '';
 
+      // 1. check if required
       if (isRequired && isEmpty) {
         errorMessage = i18n('CAKE_ORDER_FORM.ERROR.FIELDREQUIRED', { label });
         isValid = false;
-      } else {
+      }
+
+      // 2. check if field is valid
+      if (isValid) {
         switch (label) {
           case i18n('CAKE_ORDER_FORM.PHONE.LABEL'):
             isValid = validator.validatePhone(value);
@@ -143,9 +147,9 @@ class OrderForm extends BaseComponent {
   handleFormSubmit = (e) => {
     e.preventDefault();
 
-    if (!this.isFormValid()) {
-      return;
-    }
+    // if (!this.isFormValid()) {
+    //   return;
+    // }
 
     this.props.showOrderPreviewForm();
   };

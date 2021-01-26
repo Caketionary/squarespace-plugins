@@ -6,6 +6,7 @@ class BaseComponent {
 
     setTimeout(() => {
       if (this.render) {
+        this.root.empty();
         this.render();
       }
     }, 0);
@@ -18,6 +19,7 @@ class BaseComponent {
 
     setTimeout(() => {
       if (this.render) {
+        this.root.empty();
         this.render();
       }
     }, 0);
@@ -28,6 +30,7 @@ class BaseComponent {
 
     setTimeout(() => {
       if (this.render) {
+        this.root.empty();
         this.render();
       }
     }, 0);
@@ -42,7 +45,9 @@ class BaseComponent {
   }
 
   remove = () => {
-    this.root.remove();
+    setTimeout(() => {
+      this.root.remove();
+    }, 0);
   }
 }
 

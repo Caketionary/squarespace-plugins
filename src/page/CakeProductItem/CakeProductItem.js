@@ -7,6 +7,7 @@ import Order from '../../models/Order';
 import ContactDetails from '../../models/ContactDetails';
 import waitForElement from '../../lib/util';
 import { parsePriceLabel } from '../../lib/currency';
+import OrderSuccessView from '../../components/CakeProductItem/OrderSuccessView';
 
 class CakeProductItem extends BaseComponent {
   constructor(props) {
@@ -47,19 +48,28 @@ class CakeProductItem extends BaseComponent {
   }
 
   handleLightBoxClose = () => {
-    this.orderForm.remove();
-    this.orderPreviewForm.remove();
+    if (this.orderForm) {
+      this.orderForm.remove();
+    }
+
+    if (this.orderPreviewForm) {
+      this.orderPreviewForm.remove();
+    }
+
+    if (this.orderSuccessView) {
+      this.orderSuccessView.remove();
+    }
 
     delete this.orderForm;
     delete this.orderPreviewForm;
+    delete this.orderSuccessView;
   }
 
   handleShowOrderForm = () => {
     this.orderForm.show();
-    setTimeout(() => {
-      this.orderPreviewForm.remove();
-      delete this.orderPreviewForm;
-    }, 0);
+    this.orderPreviewForm.remove();
+
+    delete this.orderPreviewForm;
 
     this.root.find('.lightbox-inner').scrollTop(0);
   }
@@ -97,6 +107,15 @@ class CakeProductItem extends BaseComponent {
     console.log('Success!');
 
     console.log(this.state.order);
+
+    this.orderForm.remove();
+    this.orderPreviewForm.remove();
+
+    delete this.orderForm;
+    delete this.orderPreviewForm;
+
+    this.orderSuccessView = new OrderSuccessView();
+    this.root.find('.lightbox-content').append(this.orderSuccessView.getNode());
   }
 
   handleOrderFailure = () => {
