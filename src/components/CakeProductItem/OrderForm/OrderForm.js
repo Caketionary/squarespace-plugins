@@ -146,9 +146,9 @@ class OrderForm extends BaseComponent {
   handleFormSubmit = (e) => {
     e.preventDefault();
 
-    // if (!this.isFormValid()) {
-    //   return;
-    // }
+    if (!this.isFormValid()) {
+      return;
+    }
 
     this.props.showOrderPreviewForm();
   };
