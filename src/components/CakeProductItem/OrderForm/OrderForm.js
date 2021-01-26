@@ -129,7 +129,7 @@ class OrderForm extends BaseComponent {
 
   getIGAccount = () => this.getAllFields().filter(({ label }) => label === i18n('CAKE_ORDER_FORM.IG_ACCOUNT.LABEL'))[0].value;
 
-  getAdditionalItems = () => this.getAllFields().filter(({ label }) => label === i18n('CAKE_ORDER_FORM.ADDITIONAL_ITEMS.LABEL'))[0].value;
+  getAdditionalItems = () => this.getAllFields().filter(({ label }) => label === i18n('CAKE_ORDER_FORM.ADDITIONAL_ITEMS.LABEL'))[0].value.split(',');
 
   getOrderDetails = () => this.getAllFields().filter(({ label }) => {
     const excludedLabels = [

@@ -1,8 +1,6 @@
 import $ from 'jquery';
 import BaseComponent from '../../BaseComponent/BaseComponent';
 import { getPriceLabel } from '../../../lib/currency';
-import FieldError from '../../FieldError/FieldError';
-import i18n from '../../../i18n/i18n';
 
 class OrderPreviewForm extends BaseComponent {
   constructor(props) {
@@ -11,23 +9,16 @@ class OrderPreviewForm extends BaseComponent {
     this.state = {
       isTncAccepted: false,
       isMarketingAccepted: false,
-      showTncError: false,
     };
   }
 
   handleOrderButtonClick = (e) => {
     e.preventDefault();
 
-    const { isTncAccepted, isMarketingAccepted } = this.state;
+    const { isMarketingAccepted } = this.state;
 
-    if (!isTncAccepted) {
-      this.setState({ showTncError: true });
-    } else {
-      this.setState({ showTncError: false });
-
-      if (this.props.onOrderSubmit) {
-        this.props.onOrderSubmit({ isMarketingAccepted });
-      }
+    if (this.props.onOrderSubmit) {
+      this.props.onOrderSubmit({ isMarketingAccepted });
     }
   }
 
@@ -48,15 +39,18 @@ class OrderPreviewForm extends BaseComponent {
   }
 
   render() {
-    const {
-      order,
-    } = this.props;
+    const { order } = this.props;
 
     const {
-      productName, quantity, unitPrice, additionalItems, contactDetails, orderDetails,
+      productName, quantity, unitPrice, contactDetails, orderDetails,
     } = order;
 
-    const { isTncAccepted, isMarketingAccepted, showTncError } = this.state;
+    const { isTncAccepted, isMarketingAccepted } = this.state;
+
+    let additionalItemsDesc = order.getAdditionalItemsDesc();
+    if (!additionalItemsDesc) {
+      additionalItemsDesc = '- 無';
+    }
 
     return `
       <div class="sqs-async-form-content">
@@ -68,16 +62,18 @@ class OrderPreviewForm extends BaseComponent {
                 <h4>產品資料</h4>
                 <div class="form-item field">
                   <label class="title">產品詳情</label>
-                  <div>${productName} (${order.getProductVariantsDesc()}) x ${quantity}</div>
+                  <div>${productName} (${order.getProductVariantsDesc()}) x ${quantity} - ${getPriceLabel(order.getTotalAmount())}</div>
                 </div>
                 <div class="form-item field">
                   <label class="title">附加項目</label>
-                  <div>${additionalItems}</div>
+                  <div>${additionalItemsDesc}</div>
                 </div>
+                <!--
                 <div class="form-item field">
                   <label class="title">總數</label>
                   <div>${getPriceLabel(unitPrice)} x ${quantity} = ${getPriceLabel(order.getTotalAmount())}</div>
                 </div>
+                -->
                 <h4>聯絡方法</h4>
                 <div class="form-item field">
                   <label class="title">名字</label>
@@ -109,7 +105,6 @@ class OrderPreviewForm extends BaseComponent {
                       我已閱讀，理解及同意有關<a href='/terms-of-service' target='_blank'>條款及細則</a>，以及<a href='/privacy-policy' target='_blank'>私隱政策聲明</a>。
                     </label>
                   </div>
-                  ${showTncError ? FieldError({ errorMessage: i18n('CAKE_ORDER_PREVIEW_FORM.ERROR.ACCEPT_TNC') }) : ''}
                 </div>
                 <div class="form-item field">
                   <legend class="title">個人資料用於推廣</legend>
@@ -122,7 +117,7 @@ class OrderPreviewForm extends BaseComponent {
                 </div>
               </div>
               <div class="form-button-wrapper">
-                <input class="button sqs-system-button sqs-editable-button" type="submit" value="確認訂單"/>
+                <input class="button sqs-system-button sqs-editable-button ${!isTncAccepted ? 'ck-disabled-button' : ''}" type="submit" value="確認訂單" ${!isTncAccepted ? 'disabled' : ''}/>
                 <a class="back-button" href="#">更改訂單</a>
               </div>
             </form>

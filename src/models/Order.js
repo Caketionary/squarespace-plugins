@@ -22,6 +22,14 @@ class Order {
   getTotalAmount = () => this.quantity * this.unitPrice
 
   getProductVariantsDesc = () => this.productVariants.map(({ label, value }) => `${label}: ${value}`).join(', ');
+
+  getAdditionalItemsDesc = () => {
+    if (!this.additionalItems) {
+      return this.additionalItems.map((additionalItem) => `- ${additionalItem}`).join('<br/>');
+    }
+
+    return '';
+  };
 }
 
 export default Order;

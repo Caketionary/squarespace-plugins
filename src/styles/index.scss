@@ -1,0 +1,8 @@
+.ck-disabled-button {
+    opacity: 0.5;
+    cursor: default !important;
+
+    &:hover {
+        opacity: 0.5 !important;
+    }
+}

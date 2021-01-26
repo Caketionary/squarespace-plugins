@@ -1,7 +1,9 @@
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'production',
+  plugins: [new MiniCssExtractPlugin()],
   module: {
     rules: [
       {
@@ -9,18 +11,26 @@ module.exports = {
         exclude: /node_modules/,
         use: ['babel-loader'],
       },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader',
+        ],
+      },
     ],
-  },
-  resolve: {
-    extensions: ['*', '.js'],
   },
   entry: {
-    vendor: [
+    'common/vendor': [
       'jquery',
     ],
-    'cake-product-item': {
+    'styles/add-on': [
+      path.resolve(__dirname, 'src/styles/index.scss'),
+    ],
+    'pages/cake-product-item': {
       import: path.resolve(__dirname, 'src/page/CakeProductItem/index.js'),
-      dependOn: 'vendor',
+      dependOn: 'common/vendor',
     },
   },
   output: {
