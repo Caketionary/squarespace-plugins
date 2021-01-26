@@ -4,12 +4,7 @@ class BaseComponent {
     this.state = {};
     this.root = root;
 
-    setTimeout(() => {
-      if (this.render) {
-        this.root.empty();
-        this.render();
-      }
-    }, 0);
+    this.redraw();
   }
 
   getNode = () => this.root
@@ -17,23 +12,13 @@ class BaseComponent {
   setProps = (props) => {
     this.props = { ...this.props, ...props };
 
-    setTimeout(() => {
-      if (this.render) {
-        this.root.empty();
-        this.render();
-      }
-    }, 0);
+    this.redraw();
   }
 
   setState = (state) => {
     this.state = { ...this.state, ...state };
 
-    setTimeout(() => {
-      if (this.render) {
-        this.root.empty();
-        this.render();
-      }
-    }, 0);
+    this.redraw();
   }
 
   show = () => {
@@ -47,6 +32,30 @@ class BaseComponent {
   remove = () => {
     setTimeout(() => {
       this.root.remove();
+    }, 0);
+  }
+
+  empty = () => {
+    setTimeout(() => {
+      this.root.empty();
+    }, 0);
+  }
+
+  redraw = () => {
+    setTimeout(() => {
+      if (this.render) {
+        if (this.preRender) {
+          this.preRender();
+        }
+
+        this.root.empty();
+        const html = this.render();
+        this.root.append(html);
+
+        if (this.postRender) {
+          this.postRender();
+        }
+      }
     }, 0);
   }
 }

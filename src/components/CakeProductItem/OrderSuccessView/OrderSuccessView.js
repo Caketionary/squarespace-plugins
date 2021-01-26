@@ -1,13 +1,6 @@
-import $ from 'jquery';
-import BaseComponent from '../common/BaseComponent';
-
-class OrderSuccessView extends BaseComponent {
-  constructor(props) {
-    super(props, $('<div class="sqs-widget sqs-async-form"/>'));
-  }
-
-  render() {
-    this.root.append(`
+function OrderSuccessView() {
+  return `
+      <div class="sqs-widget sqs-async-form"/>
         <div class="sqs-async-form-content">
           <div class="form-wrapper">
             <div class="form-title">訂單提交成功</div>
@@ -16,8 +9,8 @@ class OrderSuccessView extends BaseComponent {
             </div>
           </div>
         </div>
-    `);
-  }
+      </div>
+    `;
 }
 
 export default OrderSuccessView;

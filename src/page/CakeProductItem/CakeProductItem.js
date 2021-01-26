@@ -1,13 +1,13 @@
 import $ from 'jquery';
-import BaseComponent from '../../components/common/BaseComponent';
-import OrderForm from '../../components/CakeProductItem/OrderForm';
-import ProductVariantsForm from '../../components/CakeProductItem/ProductVariantsForm';
-import OrderPreviewForm from '../../components/CakeProductItem/OrderPreviewForm';
+import BaseComponent from '../../components/BaseComponent/BaseComponent';
+import OrderForm from '../../components/CakeProductItem/OrderForm/OrderForm';
+import ProductVariantsForm from '../../components/CakeProductItem/ProductVariantsForm/ProductVariantsForm';
+import OrderPreviewForm from '../../components/CakeProductItem/OrderPreviewForm/OrderPreviewForm';
 import Order from '../../models/Order';
 import ContactDetails from '../../models/ContactDetails';
 import waitForElement from '../../lib/util';
 import { parsePriceLabel } from '../../lib/currency';
-import OrderSuccessView from '../../components/CakeProductItem/OrderSuccessView';
+import OrderSuccessView from '../../components/CakeProductItem/OrderSuccessView/OrderSuccessView';
 
 class CakeProductItem extends BaseComponent {
   constructor(props) {
@@ -48,21 +48,10 @@ class CakeProductItem extends BaseComponent {
   }
 
   handleLightBoxClose = () => {
-    if (this.orderForm) {
-      this.orderForm.remove();
-    }
-
-    if (this.orderPreviewForm) {
-      this.orderPreviewForm.remove();
-    }
-
-    if (this.orderSuccessView) {
-      this.orderSuccessView.remove();
-    }
+    this.root.find('.lightbox-content').empty();
 
     delete this.orderForm;
     delete this.orderPreviewForm;
-    delete this.orderSuccessView;
   }
 
   handleShowOrderForm = () => {
@@ -114,8 +103,7 @@ class CakeProductItem extends BaseComponent {
     delete this.orderForm;
     delete this.orderPreviewForm;
 
-    this.orderSuccessView = new OrderSuccessView();
-    this.root.find('.lightbox-content').append(this.orderSuccessView.getNode());
+    this.root.find('.lightbox-content').append(OrderSuccessView());
   }
 
   handleOrderFailure = () => {

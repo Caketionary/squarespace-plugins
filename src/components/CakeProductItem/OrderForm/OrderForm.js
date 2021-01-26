@@ -1,8 +1,9 @@
 // hijack the Add to Cart button in order form
 import $ from 'jquery';
-import validator from '../../lib/validator';
-import BaseComponent from '../common/BaseComponent';
-import i18n from '../../i18n/i18n';
+import validator from '../../../lib/validator';
+import ErrorField from '../../FieldError/FieldError';
+import BaseComponent from '../../BaseComponent/BaseComponent';
+import i18n from '../../../i18n/i18n';
 
 class OrderForm extends BaseComponent {
   constructor(props) {
@@ -101,7 +102,7 @@ class OrderForm extends BaseComponent {
       let fieldError = formItem.find('.field-error');
       if (errorMessage) {
         if (fieldError.length === 0) {
-          fieldError = formItem.append(this.renderErrorField(errorMessage));
+          fieldError = formItem.append(ErrorField({ errorMessage }));
         } else {
           fieldError.text(errorMessage);
         }
@@ -118,7 +119,7 @@ class OrderForm extends BaseComponent {
     const value = this.getFieldValue($(formItem));
 
     return { label, value };
-  })// .reduce((acc, { label, value }) => ({ ...acc, [label]: value }), {})
+  })
 
   getName = () => this.getAllFields().filter(({ label }) => label === i18n('CAKE_ORDER_FORM.NAME.LABEL'))[0].value;
 
@@ -141,8 +142,6 @@ class OrderForm extends BaseComponent {
 
     return !excludedLabels.includes(label);
   })
-
-  renderErrorField = (errorMessage) => $(`<div class="field-error">${errorMessage}</div>`)
 
   handleFormSubmit = (e) => {
     e.preventDefault();

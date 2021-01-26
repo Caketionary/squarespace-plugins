@@ -1,20 +1,31 @@
 import $ from 'jquery';
-import BaseComponent from '../common/BaseComponent';
-import { getPriceLabel } from '../../lib/currency';
+import BaseComponent from '../../BaseComponent/BaseComponent';
+import { getPriceLabel } from '../../../lib/currency';
+import FieldError from '../../FieldError/FieldError';
 
 class OrderPreviewForm extends BaseComponent {
   constructor(props) {
     super(props, $('<div class="sqs-widget sqs-async-form"/>'));
 
-    this.state = { isTncAccepted: false, isMarketingAccepted: false };
+    this.state = {
+      isTncAccepted: false,
+      isMarketingAccepted: false,
+      showTncError: false,
+    };
   }
 
   handleOrderSubmit = (e) => {
     e.preventDefault();
 
-    const { isMarketingAccepted } = this.state;
+    const { isTncAccepted, isMarketingAccepted } = this.state;
 
-    this.props.onOrderButtonClick({ isMarketingAccepted });
+    if (!isTncAccepted) {
+      this.setState({ showTncError: true });
+    } else {
+      this.setState({ showTncError: false });
+
+      this.props.onOrderButtonClick({ isMarketingAccepted });
+    }
   }
 
   handleBackButtonClick = (e) => {
@@ -40,9 +51,9 @@ class OrderPreviewForm extends BaseComponent {
       productName, quantity, unitPrice, additionalItems, contactDetails, orderDetails,
     } = order;
 
-    const { isTncAccepted, isMarketingAccepted } = this.state;
+    const { isTncAccepted, isMarketingAccepted, showTncError } = this.state;
 
-    this.root.append(`
+    return `
       <div class="sqs-async-form-content">
         <div class="form-wrapper">
           <div class="form-title">確認訂單資料</div>
@@ -93,6 +104,7 @@ class OrderPreviewForm extends BaseComponent {
                       我已閱讀，理解及同意有關<a href='/terms-of-service' target='_blank'>條款及細則</a>，以及<a href='/privacy-policy' target='_blank'>私隱政策聲明</a>。
                     </label>
                   </div>
+                  ${showTncError ? FieldError({ errorMessage: 'Error!' }) : ''}
                 </div>
                 <div class="form-item field">
                   <legend class="title">個人資料用於推廣</legend>
@@ -111,8 +123,10 @@ class OrderPreviewForm extends BaseComponent {
             </form>
           </div>
         </div>
-      </div>`);
+      </div>`;
+  }
 
+  postRender = () => {
     this.root.find('input[type=submit]').on('click', this.handleOrderSubmit);
     this.root.find('.back-button').on('click', this.handleBackButtonClick);
     this.root.find('input[name=accept-terms]').on('click', this.handleToggleTNC);

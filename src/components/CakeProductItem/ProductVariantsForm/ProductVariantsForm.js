@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import BaseComponent from '../common/BaseComponent';
+import BaseComponent from '../../BaseComponent/BaseComponent';
 
 class ProductVariantsForm extends BaseComponent {
   constructor(props) {
@@ -16,7 +16,7 @@ class ProductVariantsForm extends BaseComponent {
     const value = $(variantOption).find('.variant-select-wrapper select').val();
 
     return { label, value };
-  })// .reduce((acc, { label, value }) => ({ ...acc, [label]: value }), {})
+  })
 }
 
 export default ProductVariantsForm;
