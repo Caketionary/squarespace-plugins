@@ -2,6 +2,7 @@ import $ from 'jquery';
 import BaseComponent from '../../BaseComponent/BaseComponent';
 import { getPriceLabel } from '../../../lib/currency';
 import FieldError from '../../FieldError/FieldError';
+import i18n from '../../../i18n/i18n';
 
 class OrderPreviewForm extends BaseComponent {
   constructor(props) {
@@ -104,7 +105,7 @@ class OrderPreviewForm extends BaseComponent {
                       我已閱讀，理解及同意有關<a href='/terms-of-service' target='_blank'>條款及細則</a>，以及<a href='/privacy-policy' target='_blank'>私隱政策聲明</a>。
                     </label>
                   </div>
-                  ${showTncError ? FieldError({ errorMessage: 'Error!' }) : ''}
+                  ${showTncError ? FieldError({ errorMessage: i18n('CAKE_ORDER_PREVIEW_FORM.ERROR.ACCEPT_TNC') }) : ''}
                 </div>
                 <div class="form-item field">
                   <legend class="title">個人資料用於推廣</legend>
