@@ -1,6 +1,7 @@
 // hijack the Add to Cart button in order form
 import $ from 'jquery';
 import validator from '../../../lib/validator';
+import getDateAfter from '../../../lib/date';
 import ErrorField from '../../FieldError/FieldError';
 import BaseComponent from '../../BaseComponent/BaseComponent';
 import i18n from '../../../i18n/i18n';
@@ -12,8 +13,15 @@ class OrderForm extends BaseComponent {
     this.form = this.root.find('.form-wrapper');
     this.formItems = this.form.find('form .form-item');
 
+    // rearrange the form
+    this.updateForm();
+
     // add handlers
     this.form.find('input[type=submit]').on('click', this.handleFormSubmit);
+  }
+
+  updateForm = () => {
+    this.root.find('fieldset.date .year').insertBefore(this.root.find('fieldset.date .month'));
   }
 
   getFieldValue = (formItem) => {
@@ -83,16 +91,24 @@ class OrderForm extends BaseComponent {
         switch (label) {
           case i18n('CAKE_ORDER_FORM.PHONE.LABEL'):
             isValid = validator.validatePhone(value);
+            errorMessage = i18n('CAKE_ORDER_FORM.ERROR.PHONE.INVALID_FORMAT');
             break;
           case i18n('CAKE_ORDER_FORM.SHIPPING_DATE.LABEL'):
             isValid = validator.validateDate(value);
+
+            if (!isValid) {
+              errorMessage = i18n('CAKE_ORDER_FORM.ERROR.DATE.INVALID_FORMAT');
+            }
+
+            isValid = validator.validateDateAfter(value, 0);
+
+            if (!isValid) {
+              errorMessage = i18n('CAKE_ORDER_FORM.ERROR.DATE.LESS_THAN_AVAILABLE_DATE', { date: getDateAfter(0) });
+            }
+
             break;
           default:
             break;
-        }
-
-        if (!isValid) {
-          errorMessage = i18n('CAKE_ORDER_FORM.ERROR.INVALID_FORMAT');
         }
       }
 
