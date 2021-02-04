@@ -76,6 +76,7 @@ class OrderForm extends BaseComponent {
       const label = $(formItem.find('.title').contents().get(0)).text().trim();
       const value = this.getFieldValue(formItem);
       const isEmpty = !value;
+      const daysToPrepare = parseInt(this.root.find('input[name=SQF_DAYS_TO_PREPARE]').val(), 10) || 0;
 
       let isValid = true;
       let errorMessage = '';
@@ -100,10 +101,10 @@ class OrderForm extends BaseComponent {
               errorMessage = i18n('CAKE_ORDER_FORM.ERROR.DATE.INVALID_FORMAT');
             }
 
-            isValid = validator.validateDateAfter(value, 0);
+            isValid = validator.validateDateAfter(value, daysToPrepare);
 
             if (!isValid) {
-              errorMessage = i18n('CAKE_ORDER_FORM.ERROR.DATE.LESS_THAN_AVAILABLE_DATE', { date: getDateAfter(0) });
+              errorMessage = i18n('CAKE_ORDER_FORM.ERROR.DATE.LESS_THAN_AVAILABLE_DATE', { date: getDateAfter(daysToPrepare) });
             }
 
             break;
