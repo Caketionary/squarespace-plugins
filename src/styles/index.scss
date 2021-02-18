@@ -1,14 +1,11 @@
-// plugins
+/* common */
+@import './common.scss';
+
+/* plugins */
 @import '../../node_modules/jquery-nice-select/css/nice-select.css';
 
-// submodules
-@import "cake-search";
+/* pages */
+@import "../page/CakeSearch/CakeSearch.scss";
 
-.ck-disabled-button {
-    opacity: 0.5;
-    cursor: default !important;
-
-    &:hover {
-        opacity: 0.5 !important;
-    }
-}
+/* components */
+@import "../components//CakeSearchForm/CakeSearchForm.scss"

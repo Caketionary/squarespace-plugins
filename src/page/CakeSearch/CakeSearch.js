@@ -1,13 +1,14 @@
 import $ from 'jquery';
 import BaseComponent from '../../components/BaseComponent/BaseComponent';
+import CakeSearchForm from '../../components/CakeSearchForm/CakeSearchForm';
 
 class CakeSearch extends BaseComponent {
   constructor(props) {
     super(props, $(props.selector));
 
-    $('.select-occasion').niceSelect();
-    $('.select-price').niceSelect();
-    $('.select-cakeshop').niceSelect();
+    this.cakeSearchForm = new CakeSearchForm({
+      selector: '.cake-search-form-wrapper',
+    });
   }
 }
 

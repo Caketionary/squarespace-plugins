@@ -60,7 +60,9 @@ class OrderForm extends BaseComponent {
       if (year && month && day) {
         value = `${year}-${month}-${day}`;
       }
-    } else {
+    } else if (formItem.hasClass('select')) {
+      value = formItem.find('select').val();
+    } else if (formItem.hasClass('text')) {
       value = formItem.find('input').val().trim();
     }
 
@@ -92,7 +94,11 @@ class OrderForm extends BaseComponent {
         switch (label) {
           case i18n('CAKE_ORDER_FORM.PHONE.LABEL'):
             isValid = validator.validatePhone(value);
-            errorMessage = i18n('CAKE_ORDER_FORM.ERROR.PHONE.INVALID_FORMAT');
+
+            if (!isValid) {
+              errorMessage = i18n('CAKE_ORDER_FORM.ERROR.PHONE.INVALID_FORMAT');
+            }
+
             break;
           case i18n('CAKE_ORDER_FORM.SHIPPING_DATE.LABEL'):
             isValid = validator.validateDate(value);
